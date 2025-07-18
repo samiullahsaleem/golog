@@ -1,6 +1,6 @@
 # golog
 
-`golog` is a lightweight, thread-safe logging library for Go, inspired by Log4j. It provides flexible logging with multiple log levels, structured logging, customizable output formats (text or JSON), and robust log rotation with optional compression. Designed for simplicity and performance, `golog` is suitable for both development and production environments.
+`golog` is a lightweight, thread-safe logging library for Go, inspired by Log4j. It provides flexible logging with multiple log levels, structured logging, customizable output formats (text or JSON), and robust log rotation with optional compression. Designed for simplicity and performance, `golog` is ideal for both development and production environments.
 
 ## Features
 
@@ -21,7 +21,7 @@ To install `golog`, use the following command:
 go get github.com/samiullahsaleem/golog@v1.0.0
 ```
 
-Ensure you are using Go 1.24.5 or later. You can verify your Go version with:
+Ensure you are using Go 1.24.5 or later. Verify your Go version with:
 
 ```bash
 go version
@@ -72,13 +72,13 @@ func main() {
 
 - **Console (JSON format)**:
   ```json
-  {"timestamp":"2025-07-18T21:27:05Z","level":"INFO","message":"Application started","version":"1.0.0"}
-  {"timestamp":"2025-07-18T21:27:05Z","level":"WARN","message":"Low memory","memory_mb":100}
-  {"timestamp":"2025-07-18T21:27:05Z","level":"ERROR","message":"Connection failed","error":"timeout"}
+  {"timestamp":"2025-07-18T21:48:00Z","level":"INFO","message":"Application started","version":"1.0.0"}
+  {"timestamp":"2025-07-18T21:48:00Z","level":"WARN","message":"Low memory","memory_mb":100}
+  {"timestamp":"2025-07-18T21:48:00Z","level":"ERROR","message":"Connection failed","error":"timeout"}
   ...
   ```
 
-- **File (`app.log`)**: Same content as console, with rotated files (e.g., `app.log.20250718_212705.gz`) created when the file exceeds 10MB.
+- **File (`app.log`)**: Same content as console, with rotated files (e.g., `app.log.20250718_214800.gz`) created when the file exceeds 10MB.
 
 ## Log Levels
 
@@ -107,11 +107,11 @@ The `golog.Config` struct allows you to customize the logger:
 
 ## Log Rotation
 
-`golog` automatically rotates log files when they exceed `MaxSizeMB`. Rotated files are named with a timestamp (e.g., `app.log.20250718_212705`). If `Compress` is `true`, rotated files are compressed with gzip (e.g., `app.log.20250718_212705.gz`). The `MaxBackups` setting limits the number of retained backups, deleting the oldest files when the limit is exceeded.
+`golog` automatically rotates log files when they exceed `MaxSizeMB`. Rotated files are named with a timestamp (e.g., `app.log.20250718_214800`). If `Compress` is `true`, rotated files are compressed with gzip (e.g., `app.log.20250718_214800.gz`). The `MaxBackups` setting limits the number of retained backups, deleting the oldest files when the limit is exceeded.
 
 ## Structured Logging
 
-You can attach key-value pairs to logs for additional context:
+Attach key-value pairs to logs for additional context:
 
 ```go
 logger.Info("User logged in", map[string]interface{}{"user_id": 123, "ip": "192.168.1.1"})
@@ -119,7 +119,12 @@ logger.Info("User logged in", map[string]interface{}{"user_id": 123, "ip": "192.
 
 In JSON format, this produces:
 ```json
-{"timestamp":"2025-07-18T21:27:05Z","level":"INFO","message":"User logged in","user_id":123,"ip":"192.168.1.1"}
+{"timestamp":"2025-07-18T21:48:00Z","level":"INFO","message":"User logged in","user_id":123,"ip":"192.168.1.1"}
+```
+
+In text format, it looks like:
+```
+[2025-07-18 21:48:00] INFO User logged in map[user_id:123 ip:192.168.1.1]
 ```
 
 ## Testing Locally
@@ -151,6 +156,8 @@ To test `golog` locally:
    go 1.24.5
 
    require github.com/samiullahsaleem/golog v1.0.0
+
+   replace github.com/samiullahsaleem/golog => ../golog
    ```
 
 5. Write a test program (see the Usage section) and run it:
